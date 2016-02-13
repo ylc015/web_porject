@@ -1,0 +1,31 @@
+
+{% extends 'polls/base.html' %}
+
+
+{% block title %}{{ user_prof.first_name }}'s homepage {% endblock %}
+
+
+{% block body_block %}
+	<h4>{{ user_prof.first_name }}</h4>
+
+
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	<h3>age: {{ user_prof.age }} </h3>
+	<h3>Gender: {{ user_prof.gender }}</h3>
+	<h3>Info: {{ user_prof.info }}</h3>
+	<h3>hobbies: {{ user_prof.hobbies }}</h3>
+	<h3>height: {{ user_prof.height }}</h3>
+	<h3>weight: {{ user_prof.weight }}</h3>
+	<h3>birthday: {{ user_prof.birthday }}</h3>
+	<h3>website: {{ user_prof.website }}</h3>
+
+
+	{% if user.is_authenticated %}
+			<button id="invite" data-user_id="{{ user_prof.id }}" data-req_id="{{ user.id }}" class="btn btn-danger" type="button">
+			<span class="glyphicon glyphicon-heart"></span>
+			Invite
+			</button>
+	{% endif %}
+{% endblock %}
+

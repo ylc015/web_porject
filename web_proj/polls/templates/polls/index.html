@@ -1,0 +1,50 @@
+{% extends 'polls/base.html' %}
+
+{% block title %}{{ view.user }}'s homepage {% endblock %}
+
+
+{% block body_block %}
+
+	{% load staticfiles %}
+	{% load static %}
+
+    {% if user.is_authenticated %}
+    <h1>Wellcome... hello {{ user.first_name }}!</h1>
+    <h1>you are loggined in</h1>
+    {% else %}
+    <h1>Wellcome... hello world!</h1>
+    {% endif %}
+
+
+    {% if latest_user_list %}
+	<ul>
+	{% for user in latest_user_list %}
+
+        {%  if user.id != view.user.id %}
+
+	    <div class="row">
+	      <div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+		  <img src='profile_images/IMG_0001.JPG' alt="no image">
+		  <div class="caption">
+		    <h3>{{ user.first_name }}</h3>
+		    <h4>{{ user.info }}</h4>
+		    <p><a href={% url 'polls:detail' user.id %} class="btn btn-primary" role="button">About</a></p>
+		  </div>
+		</div>
+	      </div>
+	    </div>
+
+        {% endif %}
+
+	{% endfor %}
+	</ul>
+    {% else %}
+	<p>No users are available.</p>
+    {% endif %}
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,24 @@
+
+{% extends 'polls/base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %} Login {% endblock %}
+
+{% block body_block %}
+	<body>
+	<h1>Login in to Link-You</h1>
+
+	<form id="login_form" method="post" action="/polls/login/">
+	    {% csrf_token %}
+	    Email: <input type="text" name="email" value="" size="50" />
+	    <br />
+	    Password: <input type="password" name="password" value="" size="50" />
+	    <br />
+
+	    <input type="submit" value="submit" />
+	</form>
+
+	</body>
+{% endblock %}

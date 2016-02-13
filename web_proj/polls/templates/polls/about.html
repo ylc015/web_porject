@@ -1,0 +1,23 @@
+{% extends 'polls/base.html' %}
+
+
+{% block title %}{{ user.first_name }}'s homepage {% endblock %}
+
+
+{% block body_block %}
+	<h2>{{ user.first_name }}'s HomePage</h2>
+
+
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	<h3>age: {{ user.age }} </h3>
+	<h3>Gender: {{ user.gender }}</h3>
+	<h3>Info: {{ user.info }}</h3>
+	<h3>hobbies: {{ user.hobbies }}</h3>
+	<h3>height: {{ user.height }}</h3>
+	<h3>weight: {{ user.weight }}</h3>
+	<h3>birthday: {{ user.birthday }}</h3>
+	<h3>website: {{ user.website }}</h3>
+
+
+{% endblock %}
