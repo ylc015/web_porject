@@ -20,4 +20,21 @@
 	<h3>website: {{ user.website }}</h3>
 
 
+    {% if rel %}
+        {%  for r in rel %}
+        	    <div class="row">
+	            <div class="col-sm-6 col-md-4">
+		            <div class="thumbnail">
+		            <img src='profile_images/IMG_0001.JPG' alt="no image">
+		            <div class="caption">
+		        <h3>{{ r.from_person.first_name }}</h3>
+		        </div>
+		        </div>
+	            </div>
+	            </div>
+        {% endfor %}
+    {% else %}
+        You have no admirers yet
+    {% endif %}
+
 {% endblock %}

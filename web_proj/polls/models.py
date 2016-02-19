@@ -39,6 +39,7 @@ class CustomUserManager(BaseUserManager):
                                  **extra_fields)
 
 
+
 class MyUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True, db_index=True)
@@ -62,12 +63,18 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     height = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     weight = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     birthday = models.DateField(default=timezone.now)
+    address = models.TextField(default='')
+    city = models.TextField(default='')
+    postal = models.TextField(default='')
+    fav_food = models.TextField(default='')
+    fav_sport = models.TextField(default='')
+
 
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['city']
 	#override user's method
     class Meta:
         verbose_name = _('user')
@@ -96,31 +103,50 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
 	# list of date request
     def add_relationship(self, person):
-        relationship, created = Relationship.objects.get_or_create(
+        relationship, created = Relationships.objects.get_or_create(
             from_person=self,
             to_person=person,
             )
         return relationship
 
+    def add_follower(self, follower):
+        relationship, created = Relationships.objects.get_or_create(
+            from_person=follower,
+            to_person=self,
+            )
+        return relationship
+
     def remove_relationship(self, person):
-        Relationship.objects.filter(
+        Relationships.objects.filter(
             from_person=self,
         to_person=person,
         ).delete()
         return
+
+
+
+    def is_related(self, person):
+        try:
+
+            Relationships.objects.get(
+            from_person=self,
+            to_person=person,
+            )
+
+            return True
+        except:
+            return False
+
+
     def get_relationships(self):
-        return self.relationships.filter(
-            to_people__from_person=self)
+        return Relationships.objects.filter(
+            from_person=self)
 
-    def get_related_to(self):
-        return self.related_to.filter(
-            from_people__to_person=self)
+    def get_admirers(self):
+        return Relationships.objects.filter(
+            to_person=self)
 
-    def get_following(self):
-        return self.get_relationships()
 
-    def get_followers(self):
-        return self.get_related_to()
 
 	def get_all_followed(self):
 
@@ -139,3 +165,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 class Relationships(models.Model):
     from_person = models.ForeignKey(MyUser, related_name='from_people')
     to_person = models.ForeignKey(MyUser, related_name='to_people')
+
+    def __str__(self):
+        return self.from_person.get_short_name() + " to " + self.to_person.get_short_name()

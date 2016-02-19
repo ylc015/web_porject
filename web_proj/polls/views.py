@@ -10,6 +10,9 @@ from .forms import UserForm
 from django.contrib.auth.models import User
 from registration.backends.simple.views import RegistrationView
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -46,8 +49,8 @@ class DetailView(generic.DetailView):
 
 def detail(request, user_key):
     user_obj = get_object_or_404(MyUser, pk=user_key)
-    current_user = request.session['user_id']
-    return render(request, 'polls/detail.html', {'user_prof': user_obj, 'user_id': current_user})
+    current_user = request.user
+    return render(request, 'polls/detail_overview.html', {'user_prof': user_obj, 'user_id': current_user})
 
 """class ResultsView(generic.DetailView):
     model = Question
@@ -197,20 +200,25 @@ def invite_user(request):
 
     user_ids = None
     if request.method == 'GET':
-        
-        user_ids = request.GET.getlist('user_ids')
-        to_id = user_ids[0]
-        from_id = user_ids[1]
 
-        to_user = get_object_or_404(MyUser, id=to_id)
-        #from_user = UserProfile.get_object_or_404(UserProfile, id=from_id)
+        user_id = request.GET['user_id']
 
-        #create relationship
-        #from_user.add_relationship(to_user)
+        if user_id is None:
+            logger.debug("retrieve user id from frontend failed")
+            return HttpResponse("invite failed")
+
+        target_usr = get_object_or_404(MyUser, id=user_id)
+        req_user = request.user
+
+        req_user.add_relationship(target_usr)
+        target_usr.add_follower(req_user)
+
+        logger.debug("user %s has followed user %s" % (req_user, target_usr))
 
 
     return HttpResponse("successfully invited user")
 
 
 def aboutView(request):
-    return render(request, 'polls/about.html', {'user_name': request.user})
+    rel = request.user.get_admirers()
+    return render(request, 'polls/about.html', {'user_name': request.user, 'rel': rel })
