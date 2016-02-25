@@ -10,6 +10,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import User, AbstractBaseUser, PermissionsMixin
+from django.conf import settings
 
 class CustomUserManager(BaseUserManager):
 
@@ -55,7 +56,8 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 	#extra info
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    path = settings.MEDIA_ROOT + '/profile_images'
+    picture = models.ImageField(upload_to=path, blank=True)
     info = models.TextField()
     age = models.IntegerField(default=0)
     gender = models.BooleanField(default=False)

@@ -1,0 +1,70 @@
+{% extends 'polls/detail.html' %}
+
+{% block detail_block %}
+
+           </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">{{ user.first_name }}</h1>
+
+
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="/static/media/English_only.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+
+          </div>
+
+          <h2 class="sub-header">{{ user_name.first_name }}'s info</h2>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                    <td>Last Name</td>
+                  <td>{{ user.last_name }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Age</td>
+                  <td>{{ user.age }}</td>
+                </tr>
+                <tr>
+                  <td>Age</td>
+                  <td>{{ user.age }}</td>
+                </tr>
+                <tr>
+                  <td>Gender</td>
+                  <td>{{ user.gender }}</td>
+                </tr>
+                <tr>
+                  <td>Height</td>
+                  <td>{{ user.height }}</td>
+                </tr>
+                <tr>
+                  <td>Weight</td>
+                  <td>{{ user.weight }}</td>
+                </tr>
+                <tr>
+                  <td>birthday</td>
+                  <td>{{ user.birthday }}</td>
+                </tr>
+                <tr>
+                  <td>Favourite Sports</td>
+                  <td>{{ user.fav_sport }}</td>
+                </tr>
+                              <tr>
+                  <td>Favourite Foods</td>
+                  <td>{{ user.fav_food }}</td>
+                </tr>
+
+            <a href="/polls/about_edit" id="invite" class="btn btn-primary" type="button">
+
+			<span class="glyphicon glyphicon-pencil"></span>
+			Edit
+            </a>
+
+{% endblock %}

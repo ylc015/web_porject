@@ -8,39 +8,74 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">{{ user_prof.first_name }}</h1>
 
+
+
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <img src="/static/media/English_only.jpg" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
               <h4>Label</h4>
               <span class="text-muted">Something else</span>
             </div>
 
           </div>
 
-          <h2 class="sub-header">Section title</h2>
+          <h2 class="sub-header">{{ user_prof.first_name }}'s info</h2>
+
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
+                    <td>Last Name</td>
+                  <td>{{ user_prof.last_name }}</td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
+                  <td>Age</td>
+                  <td>{{ user_prof.age }}</td>
                 </tr>
+                <tr>
+                  <td>Age</td>
+                  <td>{{ user_prof.age }}</td>
+                </tr>
+                <tr>
+                  <td>Gender</td>
+                  <td>{{ user_prof.gender }}</td>
+                </tr>
+                <tr>
+                  <td>Height</td>
+                  <td>{{ user_prof.height }}</td>
+                </tr>
+                <tr>
+                  <td>Weight</td>
+                  <td>{{ user_prof.weight }}</td>
+                </tr>
+                <tr>
+                  <td>birthday</td>
+                  <td>{{ user_prof.birthday }}</td>
+                </tr>
+                <tr>
+                  <td>Favourite Sports</td>
+                  <td>{{ user_prof.fav_sport }}</td>
+                </tr>
+                              <tr>
+                  <td>Favourite Foods</td>
+                  <td>{{ user_prof.fav_food }}</td>
+                </tr>
+
+
 
               </tbody>
             </table>
+              {% if user.is_authenticated %}
+            <button id="invite" data-user_id="{{ user_prof.id }}" class="btn btn-danger" type="button">
+
+			<span class="glyphicon glyphicon-heart"></span>
+			Invite
+            </button>
+             {% endif %}
           </div>
         </div>
+
 
 {% endblock %}

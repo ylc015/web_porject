@@ -5,19 +5,36 @@
 
 
 {% block body_block %}
-	<h2>{{ user.first_name }}'s HomePage</h2>
-
+	<h4>{{ user.first_name }}</h4>
 
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-	<h3>age: {{ user.age }} </h3>
-	<h3>Gender: {{ user.gender }}</h3>
-	<h3>Info: {{ user.info }}</h3>
-	<h3>hobbies: {{ user.hobbies }}</h3>
-	<h3>height: {{ user.height }}</h3>
-	<h3>weight: {{ user.weight }}</h3>
-	<h3>birthday: {{ user.birthday }}</h3>
-	<h3>website: {{ user.website }}</h3>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Photos</a></li>
+            <li><a href="#">Admirers</a></li>
+            <li><a href="#">Message</a></li>
+
+
+          </ul>
+
+
+        </div>
+
+      </div>
+
+            <div>{% block detail_block %}{% endblock %}
+    </div>
+
+
+
+
+
+{% endblock %}
 
 
     {% if rel %}
@@ -37,4 +54,4 @@
         You have no admirers yet
     {% endif %}
 
-{% endblock %}
+

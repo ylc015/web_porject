@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import MyUser 
-from .forms import UserForm
+from .forms import UserForm, UpdateUserForm
 from django.contrib.auth.models import User
 from registration.backends.simple.views import RegistrationView
 
@@ -52,34 +52,8 @@ def detail(request, user_key):
     current_user = request.user
     return render(request, 'polls/detail_overview.html', {'user_prof': user_obj, 'user_id': current_user})
 
-"""class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'polls/results.html'
 
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
 
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'polls/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
-# Create a new class that redirects the user to the index page, if successful at logging
-class MyRegistrationView(RegistrationView):
-    def get_success_url(self,request, user):
-        return '/polls/'
-"""
 
 
 
@@ -218,7 +192,45 @@ def invite_user(request):
 
     return HttpResponse("successfully invited user")
 
-
+@login_required
 def aboutView(request):
     rel = request.user.get_admirers()
-    return render(request, 'polls/about.html', {'user_name': request.user, 'rel': rel })
+    return render(request, 'polls/about_overview.html', {'user_name': request.user, 'rel': rel })
+
+@login_required
+def updateUser(request):
+
+
+    if request.method == 'POST':
+        instance = request.user
+
+        update_form = UserForm(data=request.POST, instance=instance)
+
+
+        if update_form.is_valid():
+
+            user = update_form.save(commit=False)
+            user.set_password(user.password)
+            if 'picture' in request.FILES:
+                user.picture = request.FILES['picture']
+            user.save()
+
+        else:
+            print update_form.errors
+
+        print "*********************"
+        print "user section name is %s" % (request.user.get_full_name())
+
+        rel = request.user.get_admirers()
+        return render(request, 'polls/about_overview.html', {'user_name': request.user, 'rel': rel, 'user_id':request.user })
+
+
+    else:
+        update_form = UserForm()
+
+    # Render the template depending on the context.
+    # send userprofile instance if needed
+    return render(request,
+            'polls/about_edit.html',
+            {'update_form':update_form, 'user_id':request.user} )
+

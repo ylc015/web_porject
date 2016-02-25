@@ -179,6 +179,11 @@ AUTH_USER_MODEL = 'polls.MyUser'
 
 
 #media root for images
-MEDIA_ROOT = 'media'
+MEDIA_ROOT = 'polls/static/media'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/polls/static/media/'
+
+#for directing logged in, replacing accounts/login to /
+LOGIN_REDIRECT_URL = '/'
+
+APPEND_SLASH=True
